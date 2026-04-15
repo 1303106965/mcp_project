@@ -1,24 +1,12 @@
 {
   "name": "mcpproject",
   "version": "1.0.0",
+  "description": "主进程：Node + TypeScript\r UI：React + TypeScript\r DB：SQLite（better-sqlite3）\r Agent：LangGraph（你对接）\r 协议：MCP\r 打包：electron-builder",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@types/node": "^25.5.2",
-    "@vitejs/plugin-react": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.8"
-  },
-  "dependencies": {
-    "electron-builder": "^26.8.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
-  }
+  "license": "ISC"
 }
