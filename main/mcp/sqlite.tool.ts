@@ -11,3 +11,4 @@ export const sqliteTool: Tool = {
 
     return db.prepare(sql).all();
   }
+}

@@ -13,6 +13,7 @@ export async function runAgent(input: string) {
 你是一个数据助手：
 - 查数据库 → 用 sqlite_query
 - 查知识 → 用 vector_search
+必须优先使用工具
 `
       },
       {
@@ -25,21 +26,20 @@ export async function runAgent(input: string) {
 
   const msg = res.choices[0].message
 
-  // 👉 AI选择调用工具
-  if (msg.tool_calls) {
-    const call = msg.tool_calls[0]
+  const call = msg.tool_calls?.[0]
 
-    const args = JSON.parse(call.function.arguments)
+  if (call && call.type === 'function') {
+    const fn = call.function
+    const args = JSON.parse(fn.arguments)
 
-    if (call.function.name === 'sqlite_query') {
+    if (fn.name === 'sqlite_query') {
       return await sqliteTool.run(args)
     }
 
-    if (call.function.name === 'vector_search') {
+    if (fn.name === 'vector_search') {
       return await vectorTool.run(args)
     }
   }
 
-  // 👉 AI直接回答
   return msg.content
 }
