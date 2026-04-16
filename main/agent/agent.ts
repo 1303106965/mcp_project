@@ -1,18 +1,45 @@
-import { tools } from '../mcp';
+import { client } from '../ai/llm'
+import { aiTools } from '../ai/tools'
+import { sqliteTool } from '../mcp/sqlite.tool'
+import { vectorTool } from '../mcp/vector.tool'
 
 export async function runAgent(input: string) {
+  const res = await client.chat.completions.create({
+    model: 'qwen-plus',
+    messages: [
+      {
+        role: 'system',
+        content: `
+你是一个数据助手：
+- 查数据库 → 用 sqlite_query
+- 查知识 → 用 vector_search
+`
+      },
+      {
+        role: 'user',
+        content: input
+      }
+    ],
+    tools: aiTools
+  })
 
-  // 简单路由（后面换 LangGraph）
-  if (input.includes('表') || input.includes('users')) {
-    return await tools[0].execute({
-      sql: 'SELECT * FROM users LIMIT 10'
-    });
+  const msg = res.choices[0].message
+
+  // 👉 AI选择调用工具
+  if (msg.tool_calls) {
+    const call = msg.tool_calls[0]
+
+    const args = JSON.parse(call.function.arguments)
+
+    if (call.function.name === 'sqlite_query') {
+      return await sqliteTool.run(args)
+    }
+
+    if (call.function.name === 'vector_search') {
+      return await vectorTool.run(args)
+    }
   }
 
-  // 否则走 RAG
-  const docs = await tools[1].execute({ query: input });
-
-  return {
-    answer: `根据资料回答：${docs.map(d => d.text).join(',')}`
-  };
+  // 👉 AI直接回答
+  return msg.content
 }

@@ -21,5 +21,6 @@ app.whenReady().then(async () => {
 });
 
 ipcMain.handle('chat', async (_, msg) => {
+  console.log('收到消息:', msg)
   return await runAgent(msg);
 });
