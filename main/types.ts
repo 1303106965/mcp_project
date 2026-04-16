@@ -1,4 +1,4 @@
 export interface Tool {
-  name: string;
-  execute: (input: any) => Promise<any>;
+  name: string
+  run: (input: any) => Promise<any>
 }

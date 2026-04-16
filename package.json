@@ -2,23 +2,26 @@
   "name": "mcpproject",
   "version": "1.0.0",
   "description": "主进程：Node + TypeScript\r UI：React + TypeScript\r DB：SQLite（better-sqlite3）\r Agent：LangGraph（你对接）\r 协议：MCP\r 打包：electron-builder",
-  "main": "index.js",
+  "main": "main/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "electron -r ts-node/register main/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@lancedb/lancedb": "^0.27.2",
     "better-sqlite3": "^12.9.0",
     "electron": "^41.2.0",
-    "lancedb": "^0.0.1",
     "node-sql-parser": "^5.4.0",
     "openai": "^6.34.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

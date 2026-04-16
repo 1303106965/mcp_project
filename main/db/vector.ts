@@ -1,4 +1,4 @@
-import * as lancedb from 'lancedb';
+import * as lancedb from '@lancedb/lancedb'
 
 let table: any;
 
